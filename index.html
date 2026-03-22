@@ -650,6 +650,52 @@
     }
     .cc-table td { padding: 4px 0; border-bottom: 1px solid #ECEFF1; color: #37474F; }
     .cc-table td:first-child { font-weight: 600; width: 40%; }
+
+    /* ── Quick Hits CSS ── */
+    .quick-hits-container {
+      display: flex;
+      gap: 16px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hit-box {
+      flex: 1;
+      min-width: 350px;
+      background: #FAFAFA;
+      border: 1px solid #CFD8DC;
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+
+    .hit-box h4 {
+      font-size: 14px;
+      color: #37474F;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #ECEFF1;
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hit-box p {
+      font-size: 11.5px;
+      color: #546E7A;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .hit-box .callout {
+      background: #E1F5FE;
+      color: #0277BD;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 11.5px;
+      border-left: 4px solid #0288D1;
+      margin-top: 10px;
+    }
   </style>
 </head>
 
@@ -1551,7 +1597,65 @@ Comparator&lt;Employee&gt; modernSorter =
     </div>
   </div>
 
-  <p class="footer">Java Collections Framework — Study Notes Diagram &nbsp;|&nbsp; java.util &amp; java.lang</p>
+  <!-- ═══════════ FINAL QUICK HITS ═══════════ -->
+  <div class="section-card">
+    <h3>💡 Final Interview Quick Hits (Deep Dive)</h3>
+    <div class="quick-hits-container">
+      
+      <!-- Fail Fast vs Fail Safe -->
+      <div class="hit-box">
+        <h4>🚨 Fail-Fast vs Fail-Safe Iterators</h4>
+        
+        <p style="font-weight:600; color:#1a1a2e;">1. Fail-Fast (e.g., ArrayList, HashMap)</p>
+        <p>If you modify a collection structurally (add/remove) while a thread is iterating, it immediately throws a <code>ConcurrentModificationException</code>.</p>
+        <ul style="font-size:11.5px; color:#546E7A; line-height:1.6; padding-left:20px; margin-bottom:10px;">
+          <li><strong>How it works:</strong> The collection has an internal <code>modCount</code> tracking edits. The iterator copies this to <code>expectedModCount</code> upon creation. Check happens on every <code>next()</code>.</li>
+          <li><strong>The Match:</strong> If <code>modCount != expectedModCount</code>, it crashes.</li>
+        </ul>
+        <code class="detail-code">List&lt;String&gt; list = new ArrayList&lt;&gt;();
+for (String s : list) {
+    list.remove(s); // ❌ Exception! (Uses Collection.remove)
+}
+// ✅ FIX: Use the iterator's own remove method!
+Iterator&lt;String&gt; it = list.iterator();
+while (it.hasNext()) {
+    it.next(); it.remove(); // expectedModCount stays synced
+}</code>
+        
+        <p style="font-weight:600; color:#1a1a2e; margin-top:14px;">2. Fail-Safe (e.g., CopyOnWriteArrayList, ConcurrentHashMap)</p>
+        <p>These iterators NEVER throw the exception because they handle structural modifications safely during iteration.</p>
+        <ul style="font-size:11.5px; color:#546E7A; line-height:1.6; padding-left:20px; margin-bottom:10px;">
+          <li><strong>How CopyOnWrite works:</strong> Any write operation creates a total physical clone/snapshot of the array. The iterator simply finishes parsing the old, untouched array.</li>
+          <li><strong>How CHM works:</strong> <code>ConcurrentHashMap</code> uses weakly consistent iterators that read node-level data without blocking, but they may or may not reflect fresh writes.</li>
+        </ul>
+      </div>
+
+      <!-- Equals & HashCode Contract -->
+      <div class="hit-box">
+        <h4>🤝 The equals() &amp; hashCode() Contract</h4>
+        <p>This is the most critical rule when using custom Objects as keys in a <code>HashMap</code> or elements in a <code>HashSet</code>.</p>
+        
+        <div style="background:#ECEFF1; padding:8px 12px; border-left:3px solid #78909C; font-size:11.5px; margin-bottom:12px; font-family:monospace;">
+          1. hashCode() decides the <strong>BUCKET</strong>.<br>
+          2. equals() finds the specific <strong>OBJECT</strong> in the bucket.
+        </div>
+
+        <ul style="font-size:11.5px; color:#546E7A; line-height:1.6; padding-left:20px; margin-bottom:10px;">
+          <li><span style="color:#2E7D32; font-weight:bold;">Rule 1:</span> If <code>A.equals(B)</code> is true, then <code>A.hashCode() == B.hashCode()</code> MUST be true.</li>
+          <li><span style="color:#EF6C00; font-weight:bold;">Rule 2:</span> If <code>A.hashCode() == B.hashCode()</code> is true, they are NOT necessarily equal. This is called a <strong>Hash Collision</strong>, and they simply go into the same bucket (forming a LinkedList/Tree).</li>
+          <li><span style="color:#C62828; font-weight:bold;">Rule 3:</span> If you override <code>equals()</code>, you <strong>MUST</strong> override <code>hashCode()</code>.</li>
+        </ul>
+
+        <div class="callout">
+          <strong>The Consequence of Violating: 💥 The "Lost Object" Bug</strong><br>
+          If you override <code>equals()</code> to compare Object fields (like ID & Name), but forget <code>hashCode()</code>... Java will use default memory-address hashcodes. When you try to do <code>map.get(new Employee(1, "Bob"))</code>, Java calculates a totally random memory bucket and says "Not Found!", even though Bob physically exists in the map inside a different bucket!
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="footer">Java Collections Framework — Ultimate Cheat Sheet &nbsp;|&nbsp; java.util &amp; java.lang</p>
 
 </body>
 
