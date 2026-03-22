@@ -359,7 +359,7 @@
       color: #263238;
     }
 
-    .impl-card .detail-code {
+    .detail-code {
       display: block;
       background: #263238;
       color: #A5D6A7;
@@ -371,6 +371,186 @@
       white-space: pre;
       overflow-x: auto;
       line-height: 1.5;
+    }
+
+    /* ── Growth Factor Table ── */
+    .growth-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .growth-table thead th {
+      background: #1B5E20;
+      color: #fff;
+      font-weight: 600;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 11.5px;
+      letter-spacing: 0.3px;
+    }
+
+    .growth-table thead th:first-child {
+      border-radius: 8px 0 0 0;
+    }
+
+    .growth-table thead th:last-child {
+      border-radius: 0 8px 0 0;
+    }
+
+    .growth-table tbody td {
+      padding: 9px 12px;
+      border-bottom: 1px solid #ECEFF1;
+      color: #37474F;
+      vertical-align: top;
+    }
+
+    .growth-table tbody tr:hover {
+      background: #f5f7fa;
+    }
+
+    .growth-table .formula {
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+      font-size: 11.5px;
+      color: #D84315;
+      background: #FBE9E7;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .growth-table .cls-name {
+      font-weight: 600;
+      color: #1565C0;
+    }
+
+    .growth-table .legacy-name {
+      font-weight: 600;
+      color: #C62828;
+    }
+
+    .growth-table code {
+      background: #ECEFF1;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 11px;
+      color: #37474F;
+    }
+
+    /* ── Interview Badges ── */
+    .interview-hot {
+      display: inline-block;
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: linear-gradient(135deg, #FF6F00, #E65100);
+      color: #fff;
+      margin-left: 6px;
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    .interview-star {
+      display: inline-block;
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: linear-gradient(135deg, #7B1FA2, #4A148C);
+      color: #fff;
+      margin-left: 6px;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 4px rgba(255, 111, 0, 0.3); }
+      50% { box-shadow: 0 0 12px rgba(255, 111, 0, 0.6); }
+    }
+
+    .highlight-row {
+      background: #FFFDE7 !important;
+      border-left: 3px solid #FF8F00;
+    }
+
+    .highlight-row:hover {
+      background: #FFF9C4 !important;
+    }
+
+    /* ── Comparable vs Comparator Flex ── */
+    .compare-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .compare-box {
+      flex: 1;
+      min-width: 350px;
+      background: #f8f9fb;
+      border: 1px solid #E0E0E0;
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+
+    .compare-box h4 {
+      font-size: 15px;
+      color: #0D47A1;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .compare-box ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 12px;
+    }
+
+    .compare-box li {
+      font-size: 12px;
+      color: #37474F;
+      padding: 4px 0;
+      line-height: 1.5;
+    }
+
+    .compare-box li::before {
+      content: "✓";
+      color: #4CAF50;
+      margin-right: 8px;
+      font-weight: bold;
+    }
+
+    .compare-box .pkg {
+      font-family: 'Courier New', monospace;
+      font-size: 10.5px;
+      color: #78909C;
+      background: #ECEFF1;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+
+    .return-logic {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 11.5px;
+    }
+
+    .return-logic th, .return-logic td {
+      border: 1px solid #CFD8DC;
+      padding: 6px 10px;
+      text-align: center;
+    }
+
+    .return-logic th {
+      background: #E3F2FD;
+      color: #1565C0;
     }
   </style>
 </head>
@@ -721,8 +901,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><span class="cls-name">ArrayList</span></td>
+        <tr class="highlight-row">
+          <td><span class="cls-name">ArrayList</span> <span class="interview-hot">🔥 HOT</span></td>
           <td>Random access, few inserts/deletes in middle</td>
           <td class="complexity">O(1)</td>
           <td class="complexity">O(1)*</td>
@@ -731,8 +911,8 @@
           <td>Insertion order</td>
           <td>❌</td>
         </tr>
-        <tr>
-          <td><span class="cls-name">LinkedList</span></td>
+        <tr class="highlight-row">
+          <td><span class="cls-name">LinkedList</span> <span class="interview-star">⭐ IMP</span></td>
           <td>Frequent insert/delete at head/tail, queue/deque use</td>
           <td class="complexity">O(n)</td>
           <td class="complexity">O(1)</td>
@@ -741,8 +921,8 @@
           <td>Insertion order</td>
           <td>❌</td>
         </tr>
-        <tr>
-          <td><span class="cls-name">HashSet</span></td>
+        <tr class="highlight-row">
+          <td><span class="cls-name">HashSet</span> <span class="interview-star">⭐ IMP</span></td>
           <td>Fast unique element lookup, no order needed</td>
           <td>—</td>
           <td class="complexity">O(1)</td>
@@ -771,8 +951,8 @@
           <td>Sorted (natural / Comparator)</td>
           <td>❌</td>
         </tr>
-        <tr>
-          <td><span class="cls-name">HashMap</span></td>
+        <tr class="highlight-row">
+          <td><span class="cls-name">HashMap</span> <span class="interview-hot">🔥 HOT</span></td>
           <td>Fast key-value lookups, no order needed</td>
           <td class="complexity">O(1)</td>
           <td class="complexity">O(1)</td>
@@ -821,8 +1001,8 @@
           <td>FIFO / LIFO</td>
           <td>❌</td>
         </tr>
-        <tr>
-          <td><span class="cls-name">ConcurrentHashMap</span></td>
+        <tr class="highlight-row">
+          <td><span class="cls-name">ConcurrentHashMap</span> <span class="interview-hot">🔥 HOT</span></td>
           <td>Thread-safe map for concurrent environments</td>
           <td class="complexity">O(1)</td>
           <td class="complexity">O(1)</td>
@@ -985,6 +1165,204 @@ rightChild(i) = 2 * i + 2
 // queue[0] is ALWAYS the minimum element</code>
       </div>
 
+    </div>
+  </div>
+
+  <!-- ═══════════ SIZE & GROWTH FACTOR ═══════════ -->
+  <div class="section-card">
+    <h3>📐 Size Increment & Growth Factor — Resizing Formulas <span class="interview-hot">🔥 HOT Interview Topic</span></h3>
+    <table class="growth-table">
+      <thead>
+        <tr>
+          <th>Collection</th>
+          <th>Initial Capacity</th>
+          <th>Load Factor</th>
+          <th>Growth Formula</th>
+          <th>Growth %</th>
+          <th>Max Capacity</th>
+          <th>Interview?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-row">
+          <td><span class="cls-name">ArrayList</span></td>
+          <td><code>10</code></td>
+          <td>— (no load factor)</td>
+          <td><span class="formula">newCap = oldCap + (oldCap >> 1)</span></td>
+          <td><strong>+50%</strong> (1.5×)</td>
+          <td><code>Integer.MAX_VALUE - 8</code></td>
+          <td><span class="interview-hot">🔥 HOT</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td><span class="cls-name">HashMap</span></td>
+          <td><code>16</code> (must be power of 2)</td>
+          <td><strong>0.75</strong></td>
+          <td><span class="formula">newCap = oldCap << 1</span></td>
+          <td><strong>×2</strong> (doubles)</td>
+          <td><code>1 << 30</code> (2³⁰)</td>
+          <td><span class="interview-hot">🔥 HOT</span></td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">HashSet</span></td>
+          <td><code>16</code> (uses HashMap internally)</td>
+          <td><strong>0.75</strong></td>
+          <td><span class="formula">newCap = oldCap << 1</span></td>
+          <td><strong>×2</strong> (doubles)</td>
+          <td><code>1 << 30</code> (2³⁰)</td>
+          <td><span class="interview-star">⭐ IMP</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td><span class="legacy-name">Vector</span></td>
+          <td><code>10</code></td>
+          <td>— (no load factor)</td>
+          <td><span class="formula">newCap = oldCap + capacityIncrement</span><br><small style="color:#78909C;">if capacityIncrement == 0:</small><br><span class="formula">newCap = oldCap * 2</span></td>
+          <td><strong>×2</strong> (doubles) by default</td>
+          <td><code>Integer.MAX_VALUE</code></td>
+          <td><span class="interview-hot">🔥 HOT</span></td>
+        </tr>
+        <tr>
+          <td><span class="legacy-name">Hashtable</span></td>
+          <td><code>11</code> (prime number!)</td>
+          <td><strong>0.75</strong></td>
+          <td><span class="formula">newCap = (oldCap << 1) + 1</span></td>
+          <td><strong>×2 + 1</strong></td>
+          <td><code>Integer.MAX_VALUE - 8</code></td>
+          <td><span class="interview-star">⭐ IMP</span></td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">LinkedHashMap</span></td>
+          <td><code>16</code></td>
+          <td><strong>0.75</strong></td>
+          <td><span class="formula">newCap = oldCap << 1</span></td>
+          <td><strong>×2</strong> (doubles)</td>
+          <td><code>1 << 30</code> (2³⁰)</td>
+          <td>—</td>
+        </tr>
+        <tr class="highlight-row">
+          <td><span class="cls-name">PriorityQueue</span></td>
+          <td><code>11</code></td>
+          <td>— (no load factor)</td>
+          <td><span class="formula">if (oldCap < 64): +2<br>else: oldCap + (oldCap >> 1)</span></td>
+          <td><strong>+100%</strong> (small) / <strong>+50%</strong> (large)</td>
+          <td><code>Integer.MAX_VALUE - 8</code></td>
+          <td><span class="interview-star">⭐ IMP</span></td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">ArrayDeque</span></td>
+          <td><code>16</code> (power of 2)</td>
+          <td>— (no load factor)</td>
+          <td><span class="formula">newCap = oldCap << 1</span></td>
+          <td><strong>×2</strong> (doubles)</td>
+          <td><code>Integer.MAX_VALUE</code></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">StringBuilder</span></td>
+          <td><code>16</code></td>
+          <td>— (not a collection)</td>
+          <td><span class="formula">newCap = (oldCap << 1) + 2</span></td>
+          <td><strong>×2 + 2</strong></td>
+          <td><code>Integer.MAX_VALUE</code></td>
+          <td><span class="interview-star">⭐ IMP</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:10.5px; color:#90A4AE; margin-top:10px;"><code>>></code> is bitwise right shift (÷2) &nbsp;|&nbsp; <code><<</code> is bitwise left shift (×2) &nbsp;|&nbsp; Load factor = threshold ratio that triggers resize</p>
+
+    <div style="margin-top:16px; padding:14px 18px; background:linear-gradient(135deg, #FFF3E0, #FFF8E1); border-radius:10px; border:1px solid #FFE0B2;">
+      <h4 style="font-size:13px; color:#E65100; margin-bottom:8px;">🎯 Top Interview Questions on Growth Factor</h4>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li style="font-size:12px; color:#37474F; padding:4px 0; line-height:1.6;">❓ <strong>ArrayList vs Vector growth?</strong> → ArrayList grows by <strong>50%</strong>, Vector grows by <strong>100%</strong> (doubles)</li>
+        <li style="font-size:12px; color:#37474F; padding:4px 0; line-height:1.6;">❓ <strong>HashMap initial capacity?</strong> → <strong>16</strong> (must be power of 2 for efficient bucket indexing with <code>&</code> operation)</li>
+        <li style="font-size:12px; color:#37474F; padding:4px 0; line-height:1.6;">❓ <strong>What is load factor 0.75?</strong> → When 75% of buckets are filled, HashMap doubles its capacity. It's a balance between <em>time</em> (fewer collisions) and <em>space</em> (less wasted memory)</li>
+        <li style="font-size:12px; color:#37474F; padding:4px 0; line-height:1.6;">❓ <strong>Why power of 2 for HashMap?</strong> → Because <code>index = hash & (n-1)</code> works like modulo but faster. Only works when n is power of 2</li>
+        <li style="font-size:12px; color:#37474F; padding:4px 0; line-height:1.6;">❓ <strong>Hashtable initial capacity?</strong> → <strong>11</strong> (prime number) — unlike HashMap's 16. Hashtable uses <code>%</code> modulo, not <code>&</code> bitwise AND</li>
+        <li style="font-size:12px; color:#37474F; padding:4px 0; line-height:1.6;">❓ <strong>HashMap treeify threshold?</strong> → Bucket converts from LinkedList → <strong>Red-Black Tree</strong> when ≥ <strong>8</strong> nodes, back to LinkedList when ≤ <strong>6</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════ COMPARABLE VS COMPARATOR ═══════════ -->
+  <div class="section-card">
+    <h3>⚖️ Comparable vs Comparator <span class="interview-hot">🔥 MUST KNOW</span></h3>
+    <p style="font-size:12.5px; color:#546E7A; margin-bottom:12px;">Used for sorting objects in <code>Collections.sort()</code>, <code>Arrays.sort()</code>, <code>TreeSet</code>, and <code>TreeMap</code>.</p>
+    
+    <div class="compare-container">
+      
+      <!-- Comparable -->
+      <div class="compare-box" style="border-top: 4px solid #1565C0;">
+        <h4>java.lang.Comparable&lt;T&gt; <span class="pkg">Natural Ordering</span></h4>
+        <ul>
+          <li><strong>Meaning:</strong> Defines the <em>default</em> sorting order for the class.</li>
+          <li><strong>Method:</strong> <code>public int compareTo(T obj)</code></li>
+          <li><strong>Modification:</strong> You MUST modify the original class to implement it.</li>
+          <li><strong>Usage:</strong> <code>Collections.sort(list)</code></li>
+          <li><strong>Example:</strong> String, Integer, Date already implement it.</li>
+        </ul>
+        <code class="detail-code">class Employee implements Comparable&lt;Employee&gt; {
+    int id;
+    String name;
+
+    @Override
+    public int compareTo(Employee other) {
+        // Sort by ID ascending
+        return this.id - other.id; 
+    }
+}</code>
+      </div>
+
+      <!-- Comparator -->
+      <div class="compare-box" style="border-top: 4px solid #E65100;">
+        <h4>java.util.Comparator&lt;T&gt; <span class="pkg">Custom Ordering</span></h4>
+        <ul>
+          <li><strong>Meaning:</strong> Defines a <em>custom</em> or multiple sorting orders.</li>
+          <li><strong>Method:</strong> <code>public int compare(T obj1, T obj2)</code></li>
+          <li><strong>Modification:</strong> You do NOT need to modify the original class.</li>
+          <li><strong>Usage:</strong> <code>Collections.sort(list, new MyComparator())</code></li>
+          <li><strong>Example:</strong> Sorting Employees by Name, then by Salary.</li>
+        </ul>
+        <code class="detail-code">// Sort by Name alphabetically (using Lambda)
+Comparator&lt;Employee&gt; nameSorter = 
+    (e1, e2) -> e1.name.compareTo(e2.name);
+
+// Or using modern Comparator methods:
+Comparator&lt;Employee&gt; modernSorter = 
+    Comparator.comparing(Employee::getName)
+              .thenComparing(Employee::getSalary);</code>
+      </div>
+
+    </div>
+
+    <!-- Return Logic -->
+    <div style="margin-top:16px;">
+      <h4 style="font-size:13px; color:#37474F; margin-bottom:8px;">🔢 The Return Logic Rule (Applies to both)</h4>
+      <table class="return-logic">
+        <thead>
+          <tr>
+            <th>Return Value</th>
+            <th>Meaning</th>
+            <th>Result in Sorting (Ascending)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Negative ( < 0 )</strong></td>
+            <td>Current object is smaller than other object</td>
+            <td style="color:#2E7D32;">Current object comes <strong>BEFORE</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Zero ( == 0 )</strong></td>
+            <td>Both objects are equal</td>
+            <td style="color:#78909C;">Order doesn't change / treated identically</td>
+          </tr>
+          <tr>
+            <td><strong>Positive ( > 0 )</strong></td>
+            <td>Current object is larger than other object</td>
+            <td style="color:#C62828;">Current object comes <strong>AFTER</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px; color:#78909C; margin-top:4px;"><em>Trick: For descending order, just swap the variables or multiply the result by -1!</em></p>
     </div>
   </div>
 
