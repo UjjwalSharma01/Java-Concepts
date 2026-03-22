@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Collections Framework — Complete Hierarchy</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      background: #f8f9fb;
+      min-height: 100vh;
+      padding: 30px 10px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1a1a2e;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #78909C;
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #424242;
+      font-weight: 500;
+    }
+
+    .legend-swatch {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      flex-shrink: 0;
+    }
+
+    .diagram-wrapper {
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      padding: 0;
+    }
+
+    svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .node rect {
+      rx: 7;
+      ry: 7;
+      stroke-width: 2;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.10));
+    }
+
+    .node:hover rect {
+      filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.20));
+    }
+
+    .lbl {
+      fill: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 11.5px;
+      text-anchor: middle;
+    }
+
+    .sub {
+      fill: rgba(255, 255, 255, 0.6);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 9px;
+      text-anchor: middle;
+    }
+
+    .I rect {
+      fill: #1565C0;
+      stroke: #0D47A1;
+    }
+
+    .A rect {
+      fill: #00838F;
+      stroke: #006064;
+    }
+
+    .C rect {
+      fill: #2E7D32;
+      stroke: #1B5E20;
+    }
+
+    .L rect {
+      fill: #C62828;
+      stroke: #B71C1C;
+    }
+
+    .s {
+      stroke: #546E7A;
+      stroke-width: 1.5;
+      fill: none;
+      marker-end: url(#ah);
+    }
+
+    .d {
+      stroke: #90A4AE;
+      stroke-width: 1.3;
+      fill: none;
+      stroke-dasharray: 5 3;
+      marker-end: url(#ah2);
+    }
+
+    .dv {
+      stroke: #CFD8DC;
+      stroke-width: 1.5;
+      stroke-dasharray: 8 5;
+    }
+
+    .dvl {
+      fill: #90A4AE;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-style: italic;
+      text-anchor: middle;
+    }
+
+    .notes {
+      max-width: 1300px;
+      margin: 28px auto 0;
+      padding: 18px 24px;
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid #E0E0E0;
+    }
+
+    .notes h3 {
+      font-size: 14px;
+      color: #37474F;
+      margin-bottom: 10px;
+    }
+
+    .notes ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .notes li {
+      font-size: 12.5px;
+      color: #616161;
+      padding: 3px 0;
+      line-height: 1.6;
+    }
+
+    .notes li::before {
+      content: "•";
+      color: #90A4AE;
+      margin-right: 8px;
+      font-weight: bold;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #BDBDBD;
+      font-size: 11px;
+    }
+
+    /* ── Comparison Table ── */
+    .section-card {
+      max-width: 1300px;
+      margin: 24px auto 0;
+      padding: 22px 24px;
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #E0E0E0;
+    }
+
+    .section-card h3 {
+      font-size: 15px;
+      color: #1a1a2e;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    .cmp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .cmp-table thead th {
+      background: #263238;
+      color: #fff;
+      font-weight: 600;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 11.5px;
+      letter-spacing: 0.3px;
+    }
+
+    .cmp-table thead th:first-child {
+      border-radius: 8px 0 0 0;
+    }
+
+    .cmp-table thead th:last-child {
+      border-radius: 0 8px 0 0;
+    }
+
+    .cmp-table tbody td {
+      padding: 9px 12px;
+      border-bottom: 1px solid #ECEFF1;
+      color: #37474F;
+      vertical-align: top;
+    }
+
+    .cmp-table tbody tr:last-child td:first-child {
+      border-radius: 0 0 0 8px;
+    }
+
+    .cmp-table tbody tr:last-child td:last-child {
+      border-radius: 0 0 8px 0;
+    }
+
+    .cmp-table tbody tr:hover {
+      background: #f5f7fa;
+    }
+
+    .cmp-table .cls-name {
+      font-weight: 600;
+      color: #1565C0;
+    }
+
+    .cmp-table .legacy-name {
+      font-weight: 600;
+      color: #C62828;
+    }
+
+    .cmp-table code {
+      background: #ECEFF1;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 11px;
+      color: #37474F;
+    }
+
+    .cmp-table .complexity {
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+      font-size: 11px;
+      color: #2E7D32;
+    }
+
+    /* ── Implementation Cards ── */
+    .impl-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .impl-card {
+      background: #f8f9fb;
+      border: 1px solid #E0E0E0;
+      border-radius: 10px;
+      padding: 16px 18px;
+      transition: box-shadow 0.2s;
+    }
+
+    .impl-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .impl-card h4 {
+      font-size: 14px;
+      color: #1565C0;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .impl-card h4 .badge {
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-list {
+      background: #E3F2FD;
+      color: #1565C0;
+    }
+
+    .badge-map {
+      background: #E0F2F1;
+      color: #00695C;
+    }
+
+    .badge-set {
+      background: #FFF3E0;
+      color: #E65100;
+    }
+
+    .badge-queue {
+      background: #F3E5F5;
+      color: #7B1FA2;
+    }
+
+    .impl-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .impl-card li {
+      font-size: 11.5px;
+      color: #455A64;
+      padding: 3px 0;
+      line-height: 1.55;
+    }
+
+    .impl-card li::before {
+      content: "▸";
+      color: #90A4AE;
+      margin-right: 6px;
+    }
+
+    .impl-card li strong {
+      color: #263238;
+    }
+
+    .impl-card .detail-code {
+      display: block;
+      background: #263238;
+      color: #A5D6A7;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-top: 8px;
+      white-space: pre;
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Java Collections Framework — Complete Hierarchy</h1>
+  <p class="subtitle">java.util &amp; java.lang — Interfaces, Abstract Classes, and Implementations</p>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#1565C0;border:2px solid #0D47A1;"></div>Interface
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#00838F;border:2px solid #006064;"></div>Abstract Class
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#2E7D32;border:2px solid #1B5E20;"></div>Concrete Class
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#C62828;border:2px solid #B71C1C;"></div>Legacy
+    </div>
+    <div class="legend-item" style="gap:6px;">
+      <svg width="40" height="14">
+        <line x1="0" y1="7" x2="40" y2="7" stroke="#546E7A" stroke-width="2" />
+        <polygon points="36,3 40,7 36,11" fill="#546E7A" />
+      </svg>extends
+    </div>
+    <div class="legend-item" style="gap:6px;">
+      <svg width="40" height="14">
+        <line x1="0" y1="7" x2="40" y2="7" stroke="#90A4AE" stroke-width="1.5" stroke-dasharray="5 3" />
+        <polygon points="36,3 40,7 36,11" fill="#90A4AE" />
+      </svg>implements
+    </div>
+  </div>
+
+  <!--
+  === PRECISE LAYOUT PLAN ===
+
+  Box sizes:
+    Standard = 130 x 38
+    Wide     = 155 x 38  (for longer names)
+    Concrete = 130 x 44  (with sublabel)
+
+  COLLECTION SIDE — positions listed as (left-edge X, center X)
+  ───────────────────────────────────────────────────────────────
+  Row0 (y=15):  Iterable .............. cx=550
+  Row1 (y=75):  Collection ............ cx=550
+  Row2 (y=155): List(150) Set(370) Queue(610) Deque(820)
+  Row3 (y=240): AbsList(80) AbsSeqL(260) SortedSet(470) AbsSet(680) AbsQueue(870)
+    Gap check R3: AbsList right=145, AbsSeqL left=183 → gap=38 ✓
+                  AbsSeqL right=338, SortedSet left=405 → gap=67 ✓
+                  SortedSet right=535, AbsSet left=615 → gap=80 ✓
+                  AbsSet right=745, AbsQueue left=805 → gap=60 ✓
+  Row3b(y=310): NavigableSet .......... cx=470
+  Row4 (y=410): ArrayList(40) LinkedList(190) Vector(350) TreeSet(520) HashSet(690) PriorityQ(860) ArrayDeq(1020)
+    Gap check R4: ArrayList right=105, LinkedList left=125 → gap=20 ✓
+                  LinkedList right=255, Vector left=285 → gap=30 ✓
+                  Vector right=415, TreeSet left=455 → gap=40 ✓
+                  TreeSet right=585, HashSet left=625 → gap=40 ✓
+                  HashSet right=755, PriorityQ left=795 → gap=40 ✓
+                  PriorityQ right=925, ArrayDeq left=955 → gap=30 ✓
+  Row5 (y=485): Stack(350) LinkedHashSet(690)
+
+  MAP SIDE
+  ───────────────────────────────────────────────────────────────
+  Divider at x=1095
+  Row0 (y=85):  Map ................... cx=1380
+  Row1 (y=185): SortedMap(1250) AbstractMap(1520)
+  Row2 (y=270): NavigableMap .......... cx=1250
+  Row3 (y=370): TreeMap(1180) HashMap(1370) Hashtable(1550)
+  Row4 (y=455): WeakHashMap(1180) LinkedHashMap(1370) ConcHashMap(1550)
+-->
+
+  <div class="diagram-wrapper">
+    <svg viewBox="-30 0 1730 580" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ah" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 9 3, 0 6" fill="#546E7A" />
+        </marker>
+        <marker id="ah2" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 9 3, 0 6" fill="#90A4AE" />
+        </marker>
+      </defs>
+
+      <!-- ═══════════ COLLECTION BRANCH ═══════════ -->
+
+      <!-- R0: Iterable  cx=550 y=15 -->
+      <g class="node I" transform="translate(485,15)">
+        <rect width="130" height="38" />
+        <text class="lbl" x="65" y="18">Iterable&lt;E&gt;</text><text class="sub" x="65" y="31">java.lang</text>
+      </g>
+      <line class="s" x1="550" y1="53" x2="550" y2="73" />
+
+      <!-- R1: Collection  cx=550 y=75 -->
+      <g class="node I" transform="translate(485,75)">
+        <rect width="130" height="38" />
+        <text class="lbl" x="65" y="18">Collection&lt;E&gt;</text><text class="sub" x="65" y="31">java.util</text>
+      </g>
+
+      <!-- Arrows R1→R2 -->
+      <line class="s" x1="510" y1="113" x2="150" y2="153" />
+      <line class="s" x1="530" y1="113" x2="370" y2="153" />
+      <line class="s" x1="565" y1="113" x2="610" y2="153" />
+      <line class="s" x1="590" y1="113" x2="820" y2="153" />
+
+      <!-- R2: List(150) Set(370) Queue(610) Deque(820) y=155 -->
+      <g class="node I" transform="translate(85,155)">
+        <rect width="130" height="36" />
+        <text class="lbl" x="65" y="23">List&lt;E&gt;</text>
+      </g>
+      <g class="node I" transform="translate(305,155)">
+        <rect width="130" height="36" />
+        <text class="lbl" x="65" y="23">Set&lt;E&gt;</text>
+      </g>
+      <g class="node I" transform="translate(545,155)">
+        <rect width="130" height="36" />
+        <text class="lbl" x="65" y="23">Queue&lt;E&gt;</text>
+      </g>
+      <g class="node I" transform="translate(755,155)">
+        <rect width="130" height="36" />
+        <text class="lbl" x="65" y="23">Deque&lt;E&gt;</text>
+      </g>
+
+      <!-- Arrows R2→R3 -->
+      <line class="s" x1="120" y1="191" x2="80" y2="238" /> <!-- List→AbsList -->
+      <line class="s" x1="180" y1="191" x2="260" y2="238" /> <!-- List→AbsSeqL -->
+      <line class="s" x1="345" y1="191" x2="470" y2="238" /> <!-- Set→SortedSet -->
+      <line class="s" x1="400" y1="191" x2="680" y2="238" /> <!-- Set→AbsSet -->
+      <line class="s" x1="610" y1="191" x2="870" y2="238" /> <!-- Queue→AbsQueue -->
+
+      <!-- R3: y=240 -->
+      <!-- AbstractList  left=15, right=145, cx=80 -->
+      <g class="node A" transform="translate(15,240)">
+        <rect width="130" height="36" />
+        <text class="lbl" x="65" y="23">AbstractList</text>
+      </g>
+      <!-- AbstractSequentialList  left=183, right=338, cx=260 (W=155) -->
+      <g class="node A" transform="translate(183,240)">
+        <rect width="155" height="36" />
+        <text class="lbl" x="77" y="14">AbstractSequential</text><text class="lbl" x="77" y="29">List</text>
+      </g>
+      <!-- SortedSet  left=405, right=535, cx=470 -->
+      <g class="node I" transform="translate(405,240)">
+        <rect width="130" height="36" />
+        <text class="lbl" x="65" y="23">SortedSet&lt;E&gt;</text>
+      </g>
+      <!-- AbstractSet  left=615, right=745, cx=680 -->
+      <g class="node A" transform="translate(615,240)">
+        <rect width="130" height="36" />
+        <text class="lbl" x="65" y="23">AbstractSet</text>
+      </g>
+      <!-- AbstractQueue  left=805, right=935, cx=870 -->
+      <g class="node A" transform="translate(805,240)">
+        <rect width="130" height="36" />
+        <text class="lbl" x="65" y="23">AbstractQueue</text>
+      </g>
+
+      <!-- SortedSet→NavigableSet -->
+      <line class="s" x1="470" y1="276" x2="470" y2="308" />
+
+      <!-- R3b: NavigableSet  cx=470 y=310 -->
+      <g class="node I" transform="translate(400,310)">
+        <rect width="140" height="36" />
+        <text class="lbl" x="70" y="23">NavigableSet&lt;E&gt;</text>
+      </g>
+
+      <!-- ═══ R4 CONCRETE ═══  y=410 -->
+
+      <!-- Arrows R3→R4 -->
+      <line class="s" x1="55" y1="276" x2="40" y2="408" /> <!-- AbsList→ArrayList -->
+      <line class="s" x1="260" y1="276" x2="190" y2="408" /> <!-- AbsSeqL→LinkedList -->
+      <line class="s" x1="110" y1="276" x2="350" y2="408" /> <!-- AbsList→Vector -->
+      <line class="s" x1="470" y1="346" x2="520" y2="408" /> <!-- NavSet→TreeSet -->
+      <line class="s" x1="680" y1="276" x2="690" y2="408" /> <!-- AbsSet→HashSet -->
+      <line class="s" x1="870" y1="276" x2="860" y2="408" /> <!-- AbsQueue→PriorityQ -->
+      <line class="d" x1="820" y1="191" x2="1020" y2="408" /> <!-- Deque→ArrayDeque -->
+      <!-- Deque→LinkedList (dashed curved) -->
+      <path class="d" d="M 820,191 C 820,330 280,360 190,408" />
+
+      <!-- ArrayList  left=-25, cx=40  (visible since viewbox min-x = 0 but close) -->
+      <g class="node C" transform="translate(-25,410)">
+        <rect width="130" height="44" />
+        <text class="lbl" x="65" y="19">ArrayList</text><text class="sub" x="65" y="35">resizable array</text>
+      </g>
+      <!-- LinkedList  left=125, cx=190 -->
+      <g class="node C" transform="translate(125,410)">
+        <rect width="130" height="44" />
+        <text class="lbl" x="65" y="19">LinkedList</text><text class="sub" x="65" y="35">doubly linked</text>
+      </g>
+      <!-- Vector  left=285, cx=350 -->
+      <g class="node L" transform="translate(285,410)">
+        <rect width="130" height="44" />
+        <text class="lbl" x="65" y="19">Vector</text><text class="sub" x="65" y="35">synchronized</text>
+      </g>
+      <!-- TreeSet  left=455, cx=520 -->
+      <g class="node C" transform="translate(455,410)">
+        <rect width="130" height="44" />
+        <text class="lbl" x="65" y="19">TreeSet</text><text class="sub" x="65" y="35">sorted (R-B tree)</text>
+      </g>
+      <!-- HashSet  left=625, cx=690 -->
+      <g class="node C" transform="translate(625,410)">
+        <rect width="130" height="44" />
+        <text class="lbl" x="65" y="19">HashSet</text><text class="sub" x="65" y="35">hash table</text>
+      </g>
+      <!-- PriorityQueue  left=795, cx=860 -->
+      <g class="node C" transform="translate(795,410)">
+        <rect width="130" height="44" />
+        <text class="lbl" x="65" y="19">PriorityQueue</text><text class="sub" x="65" y="35">heap-based</text>
+      </g>
+      <!-- ArrayDeque  left=955, cx=1020 -->
+      <g class="node C" transform="translate(955,410)">
+        <rect width="130" height="44" />
+        <text class="lbl" x="65" y="19">ArrayDeque</text><text class="sub" x="65" y="35">resizable array</text>
+      </g>
+
+      <!-- Stack (under Vector) -->
+      <line class="s" x1="350" y1="454" x2="350" y2="483" />
+      <g class="node L" transform="translate(285,485)">
+        <rect width="130" height="44" />
+        <text class="lbl" x="65" y="19">Stack</text><text class="sub" x="65" y="35">LIFO</text>
+      </g>
+
+      <!-- LinkedHashSet (under HashSet) -->
+      <line class="s" x1="690" y1="454" x2="690" y2="483" />
+      <g class="node C" transform="translate(618,485)">
+        <rect width="145" height="44" />
+        <text class="lbl" x="72" y="19">LinkedHashSet</text><text class="sub" x="72" y="35">insertion order</text>
+      </g>
+
+
+      <!-- ═══════════ DIVIDER ═══════════ -->
+      <line class="dv" x1="1095" y1="5" x2="1095" y2="565" />
+      <text class="dvl" x="1380" y="30">MAP BRANCH — does NOT extend Collection</text>
+      <text class="dvl" x="1380" y="45">(completely separate root)</text>
+
+
+      <!-- ═══════════ MAP BRANCH ═══════════ -->
+
+      <!-- Map  cx=1380  y=85 -->
+      <g class="node I" transform="translate(1315,85)">
+        <rect width="130" height="38" />
+        <text class="lbl" x="65" y="18">Map&lt;K,V&gt;</text><text class="sub" x="65" y="31">java.util</text>
+      </g>
+
+      <line class="s" x1="1350" y1="123" x2="1250" y2="183" />
+      <line class="s" x1="1410" y1="123" x2="1520" y2="183" />
+
+      <!-- SortedMap  cx=1250 y=185 -->
+      <g class="node I" transform="translate(1170,185)">
+        <rect width="160" height="36" />
+        <text class="lbl" x="80" y="23">SortedMap&lt;K,V&gt;</text>
+      </g>
+      <!-- AbstractMap  cx=1520 y=185 -->
+      <g class="node A" transform="translate(1440,185)">
+        <rect width="160" height="36" />
+        <text class="lbl" x="80" y="23">AbstractMap&lt;K,V&gt;</text>
+      </g>
+
+      <line class="s" x1="1250" y1="221" x2="1250" y2="268" />
+
+      <!-- NavigableMap  cx=1250 y=270 -->
+      <g class="node I" transform="translate(1165,270)">
+        <rect width="170" height="36" />
+        <text class="lbl" x="85" y="23">NavigableMap&lt;K,V&gt;</text>
+      </g>
+
+      <!-- Arrows to concrete maps -->
+      <line class="s" x1="1230" y1="306" x2="1180" y2="368" /> <!-- NavMap→TreeMap -->
+      <line class="s" x1="1500" y1="221" x2="1370" y2="368" /> <!-- AbsMap→HashMap -->
+      <line class="s" x1="1420" y1="123" x2="1550" y2="368" /> <!-- Map→Hashtable -->
+
+      <!-- TreeMap  cx=1180 y=370 -->
+      <g class="node C" transform="translate(1115,370)">
+        <rect width="130" height="44" />
+        <text class="lbl" x="65" y="19">TreeMap</text><text class="sub" x="65" y="35">sorted (R-B tree)</text>
+      </g>
+      <!-- HashMap  cx=1370 y=370 -->
+      <g class="node C" transform="translate(1305,370)">
+        <rect width="130" height="44" />
+        <text class="lbl" x="65" y="19">HashMap</text><text class="sub" x="65" y="35">hash table</text>
+      </g>
+      <!-- Hashtable  cx=1550 y=370 -->
+      <g class="node L" transform="translate(1485,370)">
+        <rect width="130" height="44" />
+        <text class="lbl" x="65" y="19">Hashtable</text><text class="sub" x="65" y="35">synchronized</text>
+      </g>
+
+      <!-- Sub-row arrows -->
+      <line class="s" x1="1370" y1="414" x2="1370" y2="453" /> <!-- HashMap→LinkedHashMap -->
+      <line class="s" x1="1500" y1="221" x2="1180" y2="453" /> <!-- AbsMap→WeakHashMap -->
+      <line class="s" x1="1415" y1="123" x2="1550" y2="453" /> <!-- Map→ConcurrentHashMap -->
+
+      <!-- WeakHashMap  cx=1180 y=455 -->
+      <g class="node C" transform="translate(1110,455)">
+        <rect width="140" height="44" />
+        <text class="lbl" x="70" y="19">WeakHashMap</text><text class="sub" x="70" y="35">weak references</text>
+      </g>
+      <!-- LinkedHashMap  cx=1370 y=455 -->
+      <g class="node C" transform="translate(1300,455)">
+        <rect width="140" height="44" />
+        <text class="lbl" x="70" y="19">LinkedHashMap</text><text class="sub" x="70" y="35">insertion order</text>
+      </g>
+      <!-- ConcurrentHashMap  cx=1550 y=455 -->
+      <g class="node C" transform="translate(1475,455)">
+        <rect width="155" height="44" />
+        <text class="lbl" x="77" y="19">ConcurrentHashMap</text><text class="sub" x="77" y="35">thread-safe</text>
+      </g>
+
+    </svg>
+  </div>
+
+  <div class="notes">
+    <h3>📝 Key Points to Remember</h3>
+    <ul>
+      <li><strong>Solid arrows</strong> → extends (class inheritance) &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Dashed
+          arrows</strong> → implements (interface implementation)</li>
+      <li><strong>LinkedList</strong> implements both <code>List&lt;E&gt;</code> AND <code>Deque&lt;E&gt;</code> — it's
+        a doubly-linked list that works as a list, queue, and double-ended queue</li>
+      <li><strong>TreeMap</strong> implements <code>NavigableMap → SortedMap → Map</code> — keys are always sorted by
+        natural ordering or a custom <code>Comparator</code></li>
+      <li><strong>HashSet</strong> internally uses a <strong>HashMap</strong> — it stores elements as keys with a dummy
+        value object</li>
+      <li><strong>Vector, Stack &amp; Hashtable</strong> are <span style="color:#C62828;font-weight:600;">legacy</span>
+        classes (synchronized) — prefer <strong>ArrayList</strong>, <strong>ArrayDeque</strong> &amp;
+        <strong>HashMap</strong> with external synchronization</li>
+      <li><strong>ConcurrentHashMap</strong> uses segment-level locking for better concurrent performance than
+        <code>Hashtable</code></li>
+      <li>The <strong>Map</strong> hierarchy is completely separate — it does NOT extend <code>Collection</code> or
+        <code>Iterable</code></li>
+    </ul>
+  </div>
+
+  <!-- ═══════════ WHEN TO USE WHICH ═══════════ -->
+  <div class="section-card">
+    <h3>📊 When to Use Which — Quick Comparison</h3>
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th>Collection</th>
+          <th>When to Use</th>
+          <th>Get / Access</th>
+          <th>Add</th>
+          <th>Remove</th>
+          <th>Search</th>
+          <th>Ordered?</th>
+          <th>Thread-Safe?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="cls-name">ArrayList</span></td>
+          <td>Random access, few inserts/deletes in middle</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)*</td>
+          <td class="complexity">O(n)</td>
+          <td class="complexity">O(n)</td>
+          <td>Insertion order</td>
+          <td>❌</td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">LinkedList</span></td>
+          <td>Frequent insert/delete at head/tail, queue/deque use</td>
+          <td class="complexity">O(n)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(n)</td>
+          <td>Insertion order</td>
+          <td>❌</td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">HashSet</span></td>
+          <td>Fast unique element lookup, no order needed</td>
+          <td>—</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td>❌ No order</td>
+          <td>❌</td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">LinkedHashSet</span></td>
+          <td>Unique elements + preserve insertion order</td>
+          <td>—</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td>Insertion order</td>
+          <td>❌</td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">TreeSet</span></td>
+          <td>Sorted unique elements, range queries</td>
+          <td>—</td>
+          <td class="complexity">O(log n)</td>
+          <td class="complexity">O(log n)</td>
+          <td class="complexity">O(log n)</td>
+          <td>Sorted (natural / Comparator)</td>
+          <td>❌</td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">HashMap</span></td>
+          <td>Fast key-value lookups, no order needed</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td>❌ No order</td>
+          <td>❌</td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">LinkedHashMap</span></td>
+          <td>Key-value + preserve insertion/access order (LRU cache)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td>Insertion / access order</td>
+          <td>❌</td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">TreeMap</span></td>
+          <td>Sorted key-value pairs, range queries on keys</td>
+          <td class="complexity">O(log n)</td>
+          <td class="complexity">O(log n)</td>
+          <td class="complexity">O(log n)</td>
+          <td class="complexity">O(log n)</td>
+          <td>Sorted by keys</td>
+          <td>❌</td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">PriorityQueue</span></td>
+          <td>Always process min/max element first</td>
+          <td class="complexity">O(1) peek</td>
+          <td class="complexity">O(log n)</td>
+          <td class="complexity">O(log n)</td>
+          <td class="complexity">O(n)</td>
+          <td>Priority (heap) order</td>
+          <td>❌</td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">ArrayDeque</span></td>
+          <td>Stack or double-ended queue (faster than Stack/LinkedList)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(n)</td>
+          <td>FIFO / LIFO</td>
+          <td>❌</td>
+        </tr>
+        <tr>
+          <td><span class="cls-name">ConcurrentHashMap</span></td>
+          <td>Thread-safe map for concurrent environments</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td>❌ No order</td>
+          <td>✅ Yes</td>
+        </tr>
+        <tr>
+          <td><span class="legacy-name">Vector</span></td>
+          <td>⚠️ Legacy — use <code>ArrayList</code> + <code>Collections.synchronizedList()</code></td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)*</td>
+          <td class="complexity">O(n)</td>
+          <td class="complexity">O(n)</td>
+          <td>Insertion order</td>
+          <td>✅ Yes (slow)</td>
+        </tr>
+        <tr>
+          <td><span class="legacy-name">Hashtable</span></td>
+          <td>⚠️ Legacy — use <code>ConcurrentHashMap</code> instead</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td class="complexity">O(1)</td>
+          <td>❌ No order</td>
+          <td>✅ Yes (slow)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:10.5px; color:#90A4AE; margin-top:8px;">* Amortized O(1) — occasional O(n) when internal array resizes &nbsp;&nbsp;|&nbsp;&nbsp; All complexities are average case</p>
+  </div>
+
+  <!-- ═══════════ INTERNAL IMPLEMENTATION ═══════════ -->
+  <div class="section-card">
+    <h3>🔍 Internal Implementation — How They Work Under the Hood</h3>
+    <div class="impl-grid">
+
+      <!-- ArrayList -->
+      <div class="impl-card">
+        <h4>ArrayList <span class="badge badge-list">List</span></h4>
+        <ul>
+          <li><strong>Backed by:</strong> Resizable <code>Object[]</code> array</li>
+          <li><strong>Initial capacity:</strong> 10 (default), grows by 50% when full</li>
+          <li><strong>Growth:</strong> <code>newCapacity = oldCapacity + (oldCapacity >> 1)</code></li>
+          <li><strong>Random access:</strong> Direct index into array → <code>O(1)</code></li>
+          <li><strong>Insert at middle:</strong> Shifts all elements right → <code>O(n)</code></li>
+          <li><strong>Null values:</strong> ✅ Allowed</li>
+        </ul>
+        <code class="detail-code">// Simplified internal structure
+Object[] elementData;
+int size;
+
+// get(index) → elementData[index]  → O(1)
+// add(e)     → elementData[size++] = e → O(1)*
+// add(i, e)  → System.arraycopy(...)   → O(n)</code>
+      </div>
+
+      <!-- LinkedList -->
+      <div class="impl-card">
+        <h4>LinkedList <span class="badge badge-list">List</span> <span class="badge badge-queue">Deque</span></h4>
+        <ul>
+          <li><strong>Backed by:</strong> Doubly-linked list of <code>Node</code> objects</li>
+          <li><strong>Each node:</strong> <code>{item, prev, next}</code></li>
+          <li><strong>Head/Tail access:</strong> O(1) via <code>first</code> and <code>last</code> pointers</li>
+          <li><strong>Random access:</strong> Traversal from head/tail → <code>O(n)</code></li>
+          <li><strong>Memory:</strong> Higher per element (object + 2 pointers per node)</li>
+          <li><strong>Null values:</strong> ✅ Allowed</li>
+        </ul>
+        <code class="detail-code">// Internal Node structure
+class Node&lt;E&gt; {
+    E item;
+    Node&lt;E&gt; prev;
+    Node&lt;E&gt; next;
+}
+Node&lt;E&gt; first, last;  // head &amp; tail pointers</code>
+      </div>
+
+      <!-- HashMap -->
+      <div class="impl-card">
+        <h4>HashMap <span class="badge badge-map">Map</span></h4>
+        <ul>
+          <li><strong>Backed by:</strong> Array of buckets (<code>Node[]</code>), each bucket is a linked list or tree</li>
+          <li><strong>Default capacity:</strong> 16, load factor: 0.75</li>
+          <li><strong>Hashing:</strong> <code>key.hashCode()</code> → spreads with <code>(h ^ h>>>16)</code></li>
+          <li><strong>Collision handling:</strong> Linked list → <strong>Red-Black tree</strong> (when bucket ≥ 8 nodes)</li>
+          <li><strong>Resize:</strong> Doubles capacity when size > capacity × loadFactor</li>
+          <li><strong>Null keys:</strong> ✅ One null key allowed, stored in bucket[0]</li>
+        </ul>
+        <code class="detail-code">// Bucket index calculation
+int index = (n - 1) &amp; hash(key);
+
+// Treeify threshold
+if (bucket.size() &gt;= 8) → convert to Red-Black Tree
+if (bucket.size() &lt;= 6) → convert back to LinkedList
+
+// Resize when: size &gt; capacity × 0.75</code>
+      </div>
+
+      <!-- TreeMap -->
+      <div class="impl-card">
+        <h4>TreeMap <span class="badge badge-map">Map</span></h4>
+        <ul>
+          <li><strong>Backed by:</strong> <strong>Red-Black Tree</strong> (self-balancing BST)</li>
+          <li><strong>Guarantees:</strong> O(log n) for get, put, remove — always balanced</li>
+          <li><strong>Ordering:</strong> Natural order (<code>Comparable</code>) or custom <code>Comparator</code></li>
+          <li><strong>Range operations:</strong> <code>subMap()</code>, <code>headMap()</code>, <code>tailMap()</code> — all efficient</li>
+          <li><strong>Null keys:</strong> ❌ Not allowed (needs comparison)</li>
+          <li><strong>No hashing:</strong> Uses comparisons, not hashCode()</li>
+        </ul>
+        <code class="detail-code">// Red-Black Tree node
+class Entry&lt;K,V&gt; {
+    K key; V value;
+    Entry left, right, parent;
+    boolean color; // RED or BLACK
+}
+// Tree is always balanced → height ≤ 2·log₂(n+1)</code>
+      </div>
+
+      <!-- HashSet -->
+      <div class="impl-card">
+        <h4>HashSet <span class="badge badge-set">Set</span></h4>
+        <ul>
+          <li><strong>Backed by:</strong> A <code>HashMap&lt;E, Object&gt;</code> internally!</li>
+          <li><strong>Dummy value:</strong> All keys map to <code>PRESENT = new Object()</code></li>
+          <li><strong>add(e):</strong> Calls <code>map.put(e, PRESENT)</code></li>
+          <li><strong>contains(e):</strong> Calls <code>map.containsKey(e)</code></li>
+          <li><strong>Uniqueness:</strong> Via <code>hashCode()</code> + <code>equals()</code></li>
+          <li><strong>Null values:</strong> ✅ One null element allowed</li>
+        </ul>
+        <code class="detail-code">// HashSet is literally a HashMap wrapper!
+private HashMap&lt;E, Object&gt; map;
+private static final Object PRESENT = new Object();
+
+public boolean add(E e) {
+    return map.put(e, PRESENT) == null;
+}</code>
+      </div>
+
+      <!-- PriorityQueue -->
+      <div class="impl-card">
+        <h4>PriorityQueue <span class="badge badge-queue">Queue</span></h4>
+        <ul>
+          <li><strong>Backed by:</strong> <strong>Binary Min-Heap</strong> (stored in an array)</li>
+          <li><strong>Default capacity:</strong> 11, grows by 50% (if < 64) or 25%</li>
+          <li><strong>peek():</strong> Returns root (minimum) → <code>O(1)</code></li>
+          <li><strong>poll():</strong> Removes root, sifts down → <code>O(log n)</code></li>
+          <li><strong>add():</strong> Adds at end, sifts up → <code>O(log n)</code></li>
+          <li><strong>Null values:</strong> ❌ Not allowed</li>
+          <li><strong>Ordering:</strong> Natural order or custom <code>Comparator</code></li>
+        </ul>
+        <code class="detail-code">// Heap stored as array
+Object[] queue;
+
+// Parent-child relationship:
+parent(i)     = (i - 1) / 2
+leftChild(i)  = 2 * i + 1
+rightChild(i) = 2 * i + 2
+
+// queue[0] is ALWAYS the minimum element</code>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="footer">Java Collections Framework — Study Notes Diagram &nbsp;|&nbsp; java.util &amp; java.lang</p>
+
+</body>
+
+</html>
