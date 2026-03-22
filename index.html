@@ -552,6 +552,104 @@
       background: #E3F2FD;
       color: #1565C0;
     }
+
+    /* ── Concurrent Maps CSS ── */
+    .concurrent-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .cc-card {
+      background: #f8f9fb;
+      border: 1px solid #E0E0E0;
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .cc-card h4 {
+      font-size: 15px;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+      border-bottom: 2px solid #E0E0E0;
+      padding-bottom: 8px;
+    }
+
+    .cc-desc {
+      font-size: 12px;
+      color: #455A64;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      min-height: 48px;
+    }
+
+    /* Map Visualization diagram styles */
+    .map-viz {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #fff;
+      border: 1px dashed #B0BEC5;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .buckets {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .bucket {
+      width: 24px;
+      height: 30px;
+      background: #E3F2FD;
+      border: 1px solid #90CAF9;
+      border-radius: 3px;
+      position: relative;
+    }
+
+    .bucket-fill {
+      position: absolute;
+      bottom: 2px;
+      left: 2px;
+      right: 2px;
+      height: 12px;
+      background: #64B5F6;
+      border-radius: 2px;
+    }
+
+    /* Lock icons */
+    .lock {
+      font-size: 20px;
+      position: absolute;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .lock-obj { top: -14px; z-index: 10; font-size: 28px; }
+    .lock-bucket { font-size: 14px; top: -10px; left: 50%; transform: translateX(-50%); }
+
+    /* Highlights for the cards */
+    .cc-bad .bucket { background: #FFEBEE; border-color: #EF9A9A; }
+    .cc-bad .bucket-fill { background: #E57373; }
+    .cc-bad .map-viz { border-color: #EF5350; background: #FFEBEE; }
+    .cc-bad h4 { border-bottom-color: #EF5350; color: #C62828;}
+
+    .cc-good h4 { border-bottom-color: #4CAF50; color: #2E7D32;}
+    .cc-good .bucket { background: #E8F5E9; border-color: #A5D6A7; }
+    .cc-good .bucket-fill { background: #81C784; }
+
+    .cc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+    .cc-table td { padding: 4px 0; border-bottom: 1px solid #ECEFF1; color: #37474F; }
+    .cc-table td:first-child { font-weight: 600; width: 40%; }
   </style>
 </head>
 
@@ -1364,6 +1462,92 @@ Comparator&lt;Employee&gt; modernSorter =
         </tbody>
       </table>
       <p style="font-size:11px; color:#78909C; margin-top:4px;"><em>Trick: For descending order, just swap the variables or multiply the result by -1!</em></p>
+    </div>
+  </div>
+
+  <!-- ═══════════ HASHMAP CONCURRENCY ═══════════ -->
+  <div class="section-card">
+    <h3>🔒 HashMap vs SynchronizedMap vs ConcurrentHashMap <span class="interview-hot">🔥 HOT Interview Topic</span></h3>
+    <p style="font-size:12.5px; color:#546E7A; margin-bottom:12px;">Understanding how different Map implementations handle multi-threading and locking mechanics.</p>
+    
+    <div class="concurrent-grid">
+
+      <!-- 1. HashMap -->
+      <div class="cc-card">
+        <h4>1. Standard HashMap</h4>
+        <p class="cc-desc">Fastest map, but completely <strong>Not Thread-Safe</strong>. Do not use in multi-threaded environments or it may corrupt data (e.g., infinite loops in older Javas).</p>
+        
+        <div class="map-viz">
+          <span style="font-size:11px; color:#78909C; font-weight:bold;">No Locks</span>
+          <div class="buckets">
+            <div class="bucket"><div class="bucket-fill"></div></div>
+            <div class="bucket"><div class="bucket-fill"></div></div>
+            <div class="bucket"><div class="bucket-fill"></div></div>
+            <div class="bucket"><div class="bucket-fill"></div></div>
+            <div class="bucket"><div class="bucket-fill"></div></div>
+          </div>
+        </div>
+
+        <table class="cc-table">
+          <tr><td>Thread Safety</td><td>❌ None</td></tr>
+          <tr><td>Lock Level</td><td>No locks</td></tr>
+          <tr><td>Performance</td><td>🚀 Highest (Single-thread)</td></tr>
+          <tr><td>Nulls Allowed</td><td>✅ 1 Null Key, Any Null Values</td></tr>
+          <tr><td>Iterator Type</td><td>Fail-Fast</td></tr>
+        </table>
+      </div>
+
+      <!-- 2. SynchronizedMap / Hashtable -->
+      <div class="cc-card cc-bad">
+        <h4>2. SynchronizedMap</h4>
+        <p class="cc-desc"><code>Collections.synchronizedMap()</code> or <code>Hashtable</code>. Achieves thread-safety by locking the <strong>entire Object</strong>. Very slow under heavy concurrent load.</p>
+        
+        <div class="map-viz">
+          <span class="lock lock-obj">🔒</span>
+          <span style="font-size:11px; color:#C62828; font-weight:bold; margin-top:8px;">Object-Level Lock</span>
+          <div class="buckets">
+            <div class="bucket"><div class="bucket-fill"></div></div>
+            <div class="bucket"><div class="bucket-fill"></div></div>
+            <div class="bucket"><div class="bucket-fill"></div></div>
+            <div class="bucket"><div class="bucket-fill"></div></div>
+            <div class="bucket"><div class="bucket-fill"></div></div>
+          </div>
+        </div>
+
+        <table class="cc-table">
+          <tr><td>Thread Safety</td><td>✅ Yes</td></tr>
+          <tr><td>Lock Level</td><td>Whole Map (Object Lock)</td></tr>
+          <tr><td>Performance</td><td>🐌 Slow (Threads blocked)</td></tr>
+          <tr><td>Nulls Allowed</td><td>✅ SynchMap (❌ Hashtable)</td></tr>
+          <tr><td>Iterator Type</td><td>Fail-Fast (Must be externally sync'd)</td></tr>
+        </table>
+      </div>
+
+      <!-- 3. ConcurrentHashMap -->
+      <div class="cc-card cc-good">
+        <h4>3. ConcurrentHashMap</h4>
+        <p class="cc-desc">The modern standard for concurrency. Locks only the <strong>specific bucket/node</strong> being updated. Reads often don't block at all.</p>
+        
+        <div class="map-viz">
+          <span style="font-size:11px; color:#2E7D32; font-weight:bold; margin-bottom:8px;">Bucket/Node-Level Lock (CAS)</span>
+          <div class="buckets">
+            <div class="bucket"><span class="lock lock-bucket">🔓</span><div class="bucket-fill"></div></div>
+            <div class="bucket" style="border-color:#2E7D32; background:#C8E6C9;"><span class="lock lock-bucket">🔒</span><div class="bucket-fill" style="background:#4CAF50;"></div></div>
+            <div class="bucket"><span class="lock lock-bucket">🔓</span><div class="bucket-fill"></div></div>
+            <div class="bucket"><span class="lock lock-bucket">🔓</span><div class="bucket-fill"></div></div>
+            <div class="bucket"><span class="lock lock-bucket">🔓</span><div class="bucket-fill"></div></div>
+          </div>
+        </div>
+
+        <table class="cc-table">
+          <tr><td>Thread Safety</td><td>✅ Yes</td></tr>
+          <tr><td>Lock Level</td><td>Bucket/Node (Java 8+)</td></tr>
+          <tr><td>Performance</td><td>🏎️ High (Concurrent)</td></tr>
+          <tr><td>Nulls Allowed</td><td>❌ NO Nulls (Prevents ambiguity)</td></tr>
+          <tr><td>Iterator Type</td><td>Fail-Safe (Weakly Consistent)</td></tr>
+        </table>
+      </div>
+
     </div>
   </div>
 
